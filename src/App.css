@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+
+.fixed {
+  position: fixed;
+  top: 10;
+  height: 90vh;
+  overflow-y: scroll;
+}
