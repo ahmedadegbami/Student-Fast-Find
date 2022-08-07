@@ -1,14 +1,19 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import PageNavbar from "./components/navbar";
+
 import Home from "./components/home";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./components/login";
+import Register from "./components/register";
 
 function App() {
   return (
-    <div>
-      <PageNavbar />
-      <Home />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

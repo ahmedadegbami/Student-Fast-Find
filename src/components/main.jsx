@@ -4,7 +4,7 @@ import { BiNoEntry } from "react-icons/bi";
 
 const Main = () => {
   return (
-    <div className="mt-5">
+    <div className="">
       <h4
         style={{
           borderRadius: "10px",

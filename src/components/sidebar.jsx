@@ -5,7 +5,7 @@ import "../App.css";
 
 const Sidebar = () => {
   return (
-    <div className="mt-5 fixed ">
+    <div className=" fixed ">
       <h4> ALL CATEGORIES</h4>
       <ListGroup as="ul" style={{ width: "200px", borderRadius: "0px" }}>
         <ListGroup.Item as="li">Bicylces</ListGroup.Item>

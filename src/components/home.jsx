@@ -1,10 +1,32 @@
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Container } from "react-bootstrap";
 import Main from "./main";
 import Sidebar from "./sidebar";
+import PageNavbar from "./navbar";
+import React, { useEffect } from "react";
+import { multiStateContext } from "../context/useStates";
 
-const home = () => {
+const Home = () => {
+  const {
+    showSignIn,
+    showRegister,
+    handleCloseSignIn,
+    handleShowSignIn,
+    handleCloseRegister,
+    handleShowRegister
+  } = React.useContext(multiStateContext);
+
   return (
-    <div>
+    <Container
+      fluid
+      style={{
+        marginTop: "80px"
+      }}
+    >
+      <Row>
+        <Col className="p-0">
+          <PageNavbar />
+        </Col>
+      </Row>
       <Row>
         <Col md={2}>
           <Sidebar />
@@ -13,8 +35,8 @@ const home = () => {
           <Main />
         </Col>
       </Row>
-    </div>
+    </Container>
   );
 };
 
-export default home;
+export default Home;

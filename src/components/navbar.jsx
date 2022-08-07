@@ -1,23 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Navbar, Form, FormControl, Button, Modal } from "react-bootstrap";
 import { BiSearch } from "react-icons/bi";
 import { useState } from "react";
 import Login from "./login";
 import Register from "./register";
+import { multiStateContext } from "../context/useStates";
+import axios from "axios";
 
 const PageNavbar = () => {
-  const [showSignIn, setShowSignIn] = useState(false);
-  const [showRegister, setShowRegister] = useState(false);
+  const {
+    showSignIn,
+    showRegister,
+    handleCloseSignIn,
+    handleShowSignIn,
+    handleCloseRegister,
+    handleShowRegister,
+    getUserData,
+    user
+  } = React.useContext(multiStateContext);
 
-  const handleCloseSignIn = () => setShowSignIn(false);
-  const handleShowSignIn = () => setShowSignIn(true);
-
-  const handleCloseRegister = () => setShowRegister(false);
-  const handleShowRegister = () => setShowRegister(true);
+  useEffect(() => {
+    getUserData();
+  }, []);
 
   return (
     <>
-      <div className="sticky-top">
+      <div className="nav-fixed">
         <Navbar
           className="m-0 p-0"
           style={{
@@ -55,56 +63,76 @@ const PageNavbar = () => {
               </Button>
             </Form>
 
-            <div
-              className="
+            {user ? (
+              <div className="d-flex">
+                <p className="m-2 text-light">Sell</p>
+                <p className="m-2 text-light">Account</p>
+                <p className="m-2 text-light">Hi {user.username}!</p>
+              </div>
+            ) : (
+              <div
+                className="
             text-white d-flex justify-content-between"
-            >
-              <p
-                onClick={handleShowSignIn}
-                className=" mr-2 mb-0"
-                style={{ cursor: "pointer" }}
               >
-                Sign In
-              </p>
-              <p className=" mr-2 mb-0">or </p>
-              <p
-                className=" mr-2 mb-0"
-                onClick={handleShowRegister}
-                style={{ cursor: "pointer" }}
-              >
-                Register
-              </p>
-            </div>
+                <p
+                  onClick={handleShowSignIn}
+                  className=" mr-2 mb-0"
+                  style={{ cursor: "pointer" }}
+                >
+                  Sign In
+                </p>
+                <p className=" mr-2 mb-0">or </p>
+                <p
+                  className=" mr-2 mb-0"
+                  onClick={handleShowRegister}
+                  style={{ cursor: "pointer" }}
+                >
+                  Register
+                </p>
+              </div>
+            )}
           </div>
         </Navbar>
       </div>
 
-      <Modal show={showSignIn} onHide={handleCloseSignIn}>
+      <Modal
+        show={showSignIn}
+        onHide={handleCloseSignIn}
+        style={{
+          marginTop: "100px"
+        }}
+      >
         <Modal.Header closeButton>
-          <Modal.Title>Modal Signin</Modal.Title>
+          <Modal.Title
+            style={{
+              color: "orange"
+            }}
+          >
+            Sign In
+          </Modal.Title>
         </Modal.Header>
         <Login />
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseSignIn}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleCloseSignIn}>
-            Save Changes
-          </Button>
         </Modal.Footer>
       </Modal>
 
       <Modal show={showRegister} onHide={handleCloseRegister}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title
+            style={{
+              color: "orange"
+            }}
+          >
+            Register
+          </Modal.Title>
         </Modal.Header>
         <Register />
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseRegister}>
             Close
-          </Button>
-          <Button variant="primary" onClick={handleCloseRegister}>
-            Save Changes
           </Button>
         </Modal.Footer>
       </Modal>

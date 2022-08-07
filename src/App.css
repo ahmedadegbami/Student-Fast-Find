@@ -43,3 +43,17 @@
   height: 90vh;
   overflow-y: scroll;
 }
+
+.nav-fixed {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.mousehover :hover {
+  color: white;
+  text-decoration: underline;
+  cursor: pointer;
+  color: blue;
+}
