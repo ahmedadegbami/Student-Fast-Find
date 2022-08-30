@@ -1,6 +1,7 @@
 import React, { useState, createContext } from "react";
 import App from "../App";
 import axios from "axios";
+import { useEffect } from "react";
 
 export const multiStateContext = createContext("");
 
@@ -8,6 +9,7 @@ export const StateContext = () => {
   const [showSignIn, setShowSignIn] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [user, setUser] = useState("");
+  const [products, setProducts] = useState([]);
 
   const handleCloseSignIn = () => setShowSignIn(false);
   const handleShowSignIn = () => setShowSignIn(true);
@@ -33,6 +35,26 @@ export const StateContext = () => {
     }
   };
 
+  const getProducts = async () => {
+    const token = localStorage.getItem("token");
+    const response = await fetch("http://localhost:3001/products", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    const data = await response.json();
+    setProducts(data);
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setUser("");
+  };
+
   return (
     <multiStateContext.Provider
       value={{
@@ -43,7 +65,10 @@ export const StateContext = () => {
         handleCloseRegister,
         handleShowRegister,
         getUserData,
-        user
+        user,
+        handleLogout,
+        setUser,
+        products
       }}
     >
       <App />

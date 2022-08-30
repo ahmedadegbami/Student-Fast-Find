@@ -2,19 +2,13 @@ import { Form, Button, Card } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-import { multiStateContext } from "../context/useStates";
+import { multiStateContext } from "../context/contextApi";
 import React, { useEffect } from "react";
 import ErrorText from "./errorText";
 
 const Register = () => {
-  const {
-    showSignIn,
-    showRegister,
-    handleCloseSignIn,
-    handleShowSignIn,
-    handleCloseRegister,
-    handleShowRegister
-  } = React.useContext(multiStateContext);
+  const { handleShowSignIn, handleCloseRegister } =
+    React.useContext(multiStateContext);
 
   const navigate = useNavigate();
   const [username, setUsername] = useState("");

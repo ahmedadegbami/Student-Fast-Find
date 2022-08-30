@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
 import { Navbar, Form, FormControl, Button, Modal } from "react-bootstrap";
 import { BiSearch } from "react-icons/bi";
-import { useState } from "react";
 import Login from "./login";
 import Register from "./register";
-import { multiStateContext } from "../context/useStates";
-import axios from "axios";
+import { multiStateContext } from "../context/contextApi";
+import { Link } from "react-router-dom";
 
 const PageNavbar = () => {
   const {
@@ -16,7 +15,8 @@ const PageNavbar = () => {
     handleCloseRegister,
     handleShowRegister,
     getUserData,
-    user
+    user,
+    handleLogout
   } = React.useContext(multiStateContext);
 
   useEffect(() => {
@@ -34,15 +34,16 @@ const PageNavbar = () => {
           }}
         >
           <div className="d-flex justify-content-between align-items-center flex-grow-1">
-            <Navbar.Brand href="#home">
+            <Navbar.Brand as={Link} to="/" className="text-white">
               <div className="d-flex">
                 <img
-                  src="SFFLogo.png"
+                  src="/SFFLogo.png"
                   width="60"
                   height="60"
                   className="d-inline-block align-top ml-5 mr-3"
-                  alt="React Bootstrap logo"
+                  alt="SFFLogo"
                 />
+
                 <h2 className="mt-2 text-light"> Student Fast Find</h2>
               </div>
             </Navbar.Brand>
@@ -64,26 +65,36 @@ const PageNavbar = () => {
             </Form>
 
             {user ? (
-              <div className="d-flex">
-                <p className="m-2 text-light">Sell</p>
-                <p className="m-2 text-light">Account</p>
+              <div className="d-flex mousehover">
                 <p className="m-2 text-light">Hi {user.username}!</p>
+
+                <Link to="/sell">
+                  <p className="m-2 text-light">Sell</p>
+                </Link>
+                <p className="m-2 text-light">
+                  <Link to="/account" className="text-light">
+                    Account
+                  </Link>
+                </p>
+                <p className="m-2 text-light" onClick={handleLogout}>
+                  Logout
+                </p>
               </div>
             ) : (
               <div
                 className="
-            text-white d-flex justify-content-between"
+            text-white d-flex justify-content-between mousehover"
               >
                 <p
                   onClick={handleShowSignIn}
-                  className=" mr-2 mb-0"
+                  className=" mr-2 mb-0 text-light"
                   style={{ cursor: "pointer" }}
                 >
                   Sign In
                 </p>
-                <p className=" mr-2 mb-0">or </p>
+                <p className=" mr-2 mb-0 text-light">or </p>
                 <p
-                  className=" mr-2 mb-0"
+                  className=" mr-2 mb-0 text-light"
                   onClick={handleShowRegister}
                   style={{ cursor: "pointer" }}
                 >

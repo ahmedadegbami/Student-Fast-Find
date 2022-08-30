@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Register from "./register";
-import { multiStateContext } from "../context/useStates";
+import { multiStateContext } from "../context/contextApi";
 import React from "react";
 import ErrorText from "./errorText";
 
