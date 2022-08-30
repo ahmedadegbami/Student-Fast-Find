@@ -4,7 +4,7 @@ import { BiSearch } from "react-icons/bi";
 import Login from "./login";
 import Register from "./register";
 import { multiStateContext } from "../context/contextApi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const PageNavbar = () => {
   const {
@@ -16,13 +16,20 @@ const PageNavbar = () => {
     handleShowRegister,
     getUserData,
     user,
-    handleLogout
+    setUser
   } = React.useContext(multiStateContext);
 
   useEffect(() => {
     getUserData();
   }, []);
 
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setUser("");
+    navigate("/");
+  };
   return (
     <>
       <div className="nav-fixed">

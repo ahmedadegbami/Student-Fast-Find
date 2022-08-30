@@ -32,7 +32,7 @@ const Main = () => {
                 />
               </Link>
               <Card.Title
-                className="d-flex justify-content-between 
+                className="d-flex justify-content-between
               mx-2 mt-2 mb-n1"
               >
                 <h5
@@ -62,7 +62,7 @@ const Main = () => {
                 }}
               >
                 <div className="d-flex justify-content-between">
-                  <p>Seller: {product.poster.username} </p>
+                  <p>Seller: {product.poster?.username} </p>
                   <Button variant="dark">Contact seller</Button>
                 </div>
                 Posted:{" "}

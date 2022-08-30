@@ -50,11 +50,6 @@ export const StateContext = () => {
     getProducts();
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setUser("");
-  };
-
   return (
     <multiStateContext.Provider
       value={{
@@ -66,7 +61,6 @@ export const StateContext = () => {
         handleShowRegister,
         getUserData,
         user,
-        handleLogout,
         setUser,
         products
       }}

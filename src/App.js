@@ -7,6 +7,7 @@ import Account from "./components/account";
 import PageNavbar from "./components/navbar";
 import Details from "./components/details";
 import Sell from "./components/sell";
+import MyProducts from "./components/myProducts";
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/account" element={<Account />} />
         <Route path="/products/:id" element={<Details />} />
-        <Route path="/sell" element={<Sell />} />
+        <Route path="/sell" element={<MyProducts />} />
       </Routes>
     </BrowserRouter>
   );

@@ -5,19 +5,18 @@ import { useEffect, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 
-const EditModel = ({ singleId }) => {
+const EditModel = ({ singleId, deleteUI }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [myProducts, setMyProducts] = useState({
+  const [myProduct, setMyProduct] = useState({
     title: "",
     price: "",
     location: "",
     image: "",
     description: ""
   });
-  console.log(singleId);
 
   const getProductsDetails = async () => {
     const token = localStorage.getItem("token");
@@ -28,7 +27,7 @@ const EditModel = ({ singleId }) => {
         }
       })
       .then((res) => {
-        setMyProducts({
+        setMyProduct({
           title: res.data.title,
           price: res.data.price,
           location: res.data.location,
@@ -49,7 +48,7 @@ const EditModel = ({ singleId }) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
     await axios
-      .put(`http://localhost:3001/products/${singleId}`, myProducts, {
+      .put(`http://localhost:3001/products/${singleId}`, myProduct, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -71,13 +70,10 @@ const EditModel = ({ singleId }) => {
         }
       })
       .then((res) => {
-        console.log(res);
+        deleteUI(singleId);
       })
       .catch((err) => {
         console.log(err);
-      })
-      .then(() => {
-        window.location.reload();
       });
   };
 
@@ -104,9 +100,9 @@ const EditModel = ({ singleId }) => {
                   <Form.Control
                     type="text"
                     placeholder="Enter title"
-                    value={myProducts.title}
+                    value={myProduct.title}
                     onChange={(e) => {
-                      setMyProducts({ ...myProducts, title: e.target.value });
+                      setMyProduct({ ...myProduct, title: e.target.value });
                     }}
                   />
                 </Form.Group>
@@ -115,10 +111,10 @@ const EditModel = ({ singleId }) => {
                   <Form.Control
                     as="textarea"
                     rows={3}
-                    value={myProducts.description}
+                    value={myProduct.description}
                     onChange={(event) =>
-                      setMyProducts({
-                        ...myProducts,
+                      setMyProduct({
+                        ...myProduct,
                         description: event.target.value
                       })
                     }
@@ -130,10 +126,10 @@ const EditModel = ({ singleId }) => {
                   <Form.Control
                     type="text"
                     placeholder="Enter price"
-                    value={myProducts.price}
+                    value={myProduct.price}
                     onChange={(event) =>
-                      setMyProducts({
-                        ...myProducts,
+                      setMyProduct({
+                        ...myProduct,
                         price: event.target.value
                       })
                     }
@@ -144,10 +140,10 @@ const EditModel = ({ singleId }) => {
                   <Form.Control
                     type="text"
                     placeholder="Enter location"
-                    value={myProducts.location}
+                    value={myProduct.location}
                     onChange={(event) =>
-                      setMyProducts({
-                        ...myProducts,
+                      setMyProduct({
+                        ...myProduct,
                         location: event.target.value
                       })
                     }
@@ -158,10 +154,10 @@ const EditModel = ({ singleId }) => {
                   <Form.Control
                     type="text"
                     placeholder="Enter image"
-                    value={myProducts.image}
+                    value={myProduct.image}
                     onChange={(event) =>
-                      setMyProducts({
-                        ...myProducts,
+                      setMyProduct({
+                        ...myProduct,
                         image: event.target.value
                       })
                     }

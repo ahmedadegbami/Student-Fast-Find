@@ -9,11 +9,8 @@ import ErrorText from "./errorText";
 
 const Login = () => {
   const {
-    showSignIn,
-    showRegister,
     handleCloseSignIn,
-    handleShowSignIn,
-    handleCloseRegister,
+
     handleShowRegister
   } = React.useContext(multiStateContext);
 
@@ -34,7 +31,6 @@ const Login = () => {
         localStorage.setItem("token", res.data.accessToken);
         window.location.reload();
         navigate("/");
-        handleCloseSignIn();
       })
       .catch((err) => {
         setError(err.response.data.message);

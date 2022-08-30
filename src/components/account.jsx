@@ -64,9 +64,7 @@ const Account = () => {
               </Card.Header>
               <Card.Body>
                 <Card.Title>{user.username}</Card.Title>
-                <Card.Text>
-                  <p>Email: {user.email}</p>
-                </Card.Text>
+                <Card.Text>Email: {user.email}</Card.Text>
               </Card.Body>
             </Card>
           </Col>
