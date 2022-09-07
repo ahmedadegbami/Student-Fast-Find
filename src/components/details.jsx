@@ -13,6 +13,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { parseISO, format } from "date-fns";
 import { useState } from "react";
+import { AiFillStar } from "react-icons/ai";
 
 const Details = () => {
   const [productDetails, setProductDetails] = React.useState([]);
@@ -94,7 +95,14 @@ const Details = () => {
             }}
           >
             <Card.Body>
-              <Card.Text>Condition: used</Card.Text>
+              <Card.Text>
+                Condition: {productDetails.condition}
+                {productDetails.condition === "New" ? (
+                  <AiFillStar color="red" />
+                ) : (
+                  <AiFillStar color="grey" />
+                )}
+              </Card.Text>
               <Card.Text>Description: {productDetails.description}</Card.Text>
             </Card.Body>
           </Card>
@@ -180,7 +188,11 @@ const Details = () => {
           <Form style={{ width: "28rem" }} onSubmit={() => {}}>
             <Form.Group className="mb-3">
               <Form.Label>Subject</Form.Label>
-              <Form.Control type="text" placeholder="Enter subject" />
+              <Form.Control
+                type="text"
+                placeholder="Enter subject"
+                value={productDetails.title}
+              />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>message</Form.Label>

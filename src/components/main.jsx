@@ -1,12 +1,12 @@
 import React from "react";
-import { Button, Card, Col, Row } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import { Card, Col, Row } from "react-bootstrap";
 import { parseISO, format } from "date-fns";
 import { Link } from "react-router-dom";
 import { multiStateContext } from "../context/contextApi";
+import { AiFillStar } from "react-icons/ai";
 
 const Main = () => {
-  const { products } = React.useContext(multiStateContext);
+  const { products, selectedCategory } = React.useContext(multiStateContext);
   return (
     <div className="">
       <h4
@@ -18,7 +18,7 @@ const Main = () => {
           color: "white"
         }}
       >
-        Pet Supplies
+        {selectedCategory}
       </h4>
       <Row className="w-100 ">
         {products.map((product) => (
@@ -26,9 +26,10 @@ const Main = () => {
             <Card style={{ backgroundColor: "orange" }}>
               <Link to={"/products/" + product._id}>
                 <Card.Img
-                  className="w-100 img-fluid"
                   variant="top"
                   src={product.image}
+                  width={200}
+                  height={250}
                 />
               </Link>
               <Card.Title
@@ -61,12 +62,17 @@ const Main = () => {
                   fontSize: "14px"
                 }}
               >
-                <div className="d-flex justify-content-between">
-                  <p>Seller: {product.poster?.username} </p>
-                  <Button variant="dark">Contact seller</Button>
-                </div>
+                <h6>
+                  Condition : {product.condition}
+                  {product.condition === "New" ? (
+                    <AiFillStar color="red" />
+                  ) : (
+                    <AiFillStar color="grey" />
+                  )}
+                </h6>
+                <p>Seller: {product.poster?.username} </p>
                 Posted:{" "}
-                {format(parseISO(product.createdAt), "MM/d/yyyy - HH:mm ")}
+                {format(parseISO(product.createdAt), "MM/d/yyyy - HH:mm aaaa ")}
               </Card.Title>
             </Card>
           </Col>

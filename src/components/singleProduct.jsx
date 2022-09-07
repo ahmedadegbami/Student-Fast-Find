@@ -7,6 +7,7 @@ import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 
 const EditModel = ({ singleId, deleteUI }) => {
   const [show, setShow] = useState(false);
+  const [fileError, setFileError] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -14,9 +15,43 @@ const EditModel = ({ singleId, deleteUI }) => {
     title: "",
     price: "",
     location: "",
-    image: "",
-    description: ""
+    description: "",
+    condition: "",
+    image: null
   });
+
+  let formData = new FormData();
+  formData.append("title", myProduct.title);
+  formData.append("price", myProduct.price);
+  formData.append("location", myProduct.location);
+  formData.append("description", myProduct.description);
+  formData.append("condition", myProduct.condition);
+  formData.append("image", myProduct.image);
+
+  const onFileChange = (e) => {
+    if (e.target && e.target.files[0] && e.target.files[0].size < 1000000) {
+      setFileError(false);
+      setMyProduct({ ...myProduct, image: e.target.files[0] });
+    } else {
+      setFileError(true);
+      return;
+    }
+  };
+
+  let formIsValid = true;
+  if (
+    myProduct.title &&
+    myProduct.price &&
+    myProduct.location &&
+    myProduct.description &&
+    myProduct.image !== null
+  ) {
+    formIsValid = true;
+  }
+
+  // const onSetMyProduct = (e) => {
+  //   setMyProduct({ ...myProduct, [e.target.name]: e.target.value });
+  // };
 
   const getProductsDetails = async () => {
     const token = localStorage.getItem("token");
@@ -30,6 +65,7 @@ const EditModel = ({ singleId, deleteUI }) => {
         setMyProduct({
           title: res.data.title,
           price: res.data.price,
+          condition: res.data.condition,
           location: res.data.location,
           image: res.data.image,
           description: res.data.description
@@ -48,7 +84,7 @@ const EditModel = ({ singleId, deleteUI }) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
     await axios
-      .put(`http://localhost:3001/products/${singleId}`, myProduct, {
+      .put(`http://localhost:3001/products/${singleId}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -56,11 +92,13 @@ const EditModel = ({ singleId, deleteUI }) => {
       .then((res) => {
         window.location.reload();
         console.log(res);
+        handleClose();
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
   const deleteProduct = async () => {
     const token = localStorage.getItem("token");
     await axios
@@ -135,6 +173,22 @@ const EditModel = ({ singleId, deleteUI }) => {
                     }
                   />
                 </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Label>Condition</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="New or Used"
+                    value={myProduct.condition}
+                    onChange={(event) =>
+                      setMyProduct({
+                        ...myProduct,
+                        condition: event.target.value
+                      })
+                    }
+                  />
+                </Form.Group>
+
                 <Form.Group className="mb-3">
                   <Form.Label>Location</Form.Label>
                   <Form.Control
@@ -152,17 +206,20 @@ const EditModel = ({ singleId, deleteUI }) => {
                 <Form.Group className="mb-3">
                   <Form.Label>Image</Form.Label>
                   <Form.Control
-                    type="text"
-                    placeholder="Enter image"
-                    value={myProduct.image}
+                    type="file"
                     onChange={(event) =>
                       setMyProduct({
                         ...myProduct,
-                        image: event.target.value
+                        image: event.target.files[0]
                       })
                     }
                   />
                 </Form.Group>
+                {fileError && (
+                  <p style={{ color: "red" }}>
+                    File size should be less than 1MB
+                  </p>
+                )}
                 <Button variant="primary" type="submit">
                   Submit
                 </Button>

@@ -5,27 +5,52 @@ import axios from "axios";
 import { multiStateContext } from "../context/contextApi";
 import React, { useEffect } from "react";
 import ErrorText from "./errorText";
+import is from "date-fns/esm/locale/is/index.js";
 
 const Register = () => {
   const { handleShowSignIn, handleCloseRegister } =
     React.useContext(multiStateContext);
 
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [avatar, setAvatar] = useState("");
-  const [error, setError] = useState("");
+
+  const [user, setUser] = useState({
+    username: "",
+    email: "",
+    password: "",
+    avatar: "",
+    error: ""
+  });
+
+  const [fileError, setFileError] = useState(false);
+
+  let formData = new FormData();
+  formData.append("username", user.username);
+  formData.append("email", user.email);
+  formData.append("password", user.password);
+  formData.append("avatar", user.avatar);
+
+  const onFileChange = (e) => {
+    if (e.target && e.target.files[0] && e.target.files[0].size < 1000000) {
+      setFileError(false);
+      setUser({ ...user, avatar: e.target.files[0] });
+    } else {
+      setFileError(true);
+      return;
+    }
+  };
+
+  const isFormValid = () => {
+    if (user.username && user.email && user.password && user.avatar !== null) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios
-      .post("http://localhost:3001/users/register", {
-        username,
-        email,
-        password,
-        avatar
-      })
+      .post("http://localhost:3001/users/register", formData)
       .then((res) => {
         handleCloseRegister();
         handleShowSignIn();
@@ -34,7 +59,7 @@ const Register = () => {
       .catch((err) => {
         if (err.response.status === 400) {
           console.log("see", err.response.data.message);
-          setError("User already exists");
+          setUser({ ...user, error: err.response.data.message });
         }
       });
   };
@@ -50,8 +75,10 @@ const Register = () => {
                 <Form.Control
                   type="text"
                   placeholder="Enter Username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  value={user.username}
+                  onChange={(e) =>
+                    setUser({ ...user, username: e.target.value })
+                  }
                 />
               </Form.Group>
 
@@ -60,8 +87,8 @@ const Register = () => {
                 <Form.Control
                   type="email"
                   placeholder="Enter email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={user.email}
+                  onChange={(e) => setUser({ ...user, email: e.target.value })}
                 />
               </Form.Group>
 
@@ -70,18 +97,19 @@ const Register = () => {
                 <Form.Control
                   type="password"
                   placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={user.password}
+                  onChange={(e) =>
+                    setUser({ ...user, password: e.target.value })
+                  }
                 />
               </Form.Group>
 
               <Form.Group className="mb-3">
-                <Form.Label>Avatar</Form.Label>
+                <Form.Label>Profile Picture</Form.Label>
                 <Form.Control
-                  type="url"
-                  placeholder="user avatar"
-                  value={avatar}
-                  onChange={(e) => setAvatar(e.target.value)}
+                  type="file"
+                  placeholder="Profile Picture"
+                  onChange={onFileChange}
                 />
               </Form.Group>
 
@@ -91,6 +119,7 @@ const Register = () => {
                   type="submit"
                   size="lg"
                   className="btn btn-block "
+                  disabled={!isFormValid()}
                 >
                   Sign Up
                 </Button>
@@ -108,7 +137,7 @@ const Register = () => {
                 Already have an account?
               </p>
             </small>
-            <ErrorText error={error} />
+            <ErrorText error={user.error} />
           </Card>
         </div>
       </div>

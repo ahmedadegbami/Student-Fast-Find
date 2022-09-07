@@ -1,13 +1,12 @@
 import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Row, Col, Container, Button, Form } from "react-bootstrap";
-import Modal from "react-bootstrap/Modal";
+import { Row, Col, Container, Image, Card } from "react-bootstrap";
 
 import { FaCloudUploadAlt } from "react-icons/fa";
 
-import EditModel from "./editModel";
-import PostModel from "./postModel";
+import EditModel from "./singleProduct";
+import PostModel from "./postProduct";
 
 const MyProducts = () => {
   const [myProducts, setMyProducts] = useState([]);
@@ -80,21 +79,29 @@ const MyProducts = () => {
             .map((product, index) => {
               return (
                 <Col md={4} className="mb-5" key={index}>
-                  <div className="card" style={{ width: "18rem" }}>
-                    <img
+                  <div
+                    className="card"
+                    style={{
+                      border: "2px solid orange"
+                    }}
+                  >
+                    <Card.Img
+                      variant="top"
                       src={product.image}
-                      className="card-img-top"
-                      alt="..."
+                      width={200}
+                      height={250}
                     />
-                    <div className="card-body">
+                    <div
+                      className="card-body"
+                      style={{ backgroundColor: "orange", color: "white" }}
+                    >
                       <div className="d-flex justify-content-between">
                         <h5 className="card-title">{product.title}</h5>
                         <EditModel singleId={product._id} deleteUI={deleteUI} />
                       </div>
                       <p className="card-text">${product.price}</p>
-                      <div className="d-flex justify-content-between">
-                        <p className="card-text">{product.location}</p>
-                      </div>
+                      <p className="card-text">{product.condition}</p>
+                      <p className="card-text">{product.category}</p>
                     </div>
                   </div>
                 </Col>

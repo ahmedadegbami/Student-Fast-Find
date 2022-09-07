@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Modal, Form, Button } from "react-bootstrap";
+import { useEffect, useState, useContext } from "react";
+import { Modal, Form, Button, DropdownButton, Dropdown } from "react-bootstrap";
 import axios from "axios";
 
 const PostModel = ({ handleClose, show, updateUi }) => {
@@ -7,10 +7,56 @@ const PostModel = ({ handleClose, show, updateUi }) => {
     title: "",
     description: "",
     price: "",
+    condition: "",
+    category: "",
     location: "",
-    image: "",
+    image: null,
     poster: ""
   });
+
+  const [categories, setCategories] = useState([
+    "Accessories",
+    "Beauty",
+    "Books",
+    "Electronics",
+    "Fashion",
+    "Home",
+    "Mobility",
+    "Others"
+  ]);
+
+  const [fileError, setFileError] = useState(false);
+
+  let formData = new FormData();
+  formData.append("title", product.title);
+  formData.append("price", product.price);
+  formData.append("condition", product.condition);
+  formData.append("category", product.category);
+  formData.append("location", product.location);
+  formData.append("description", product.description);
+  formData.append("image", product.image);
+  formData.append("poster", product.poster);
+
+  const onFileChange = (e) => {
+    if (e.target && e.target.files[0] && e.target.files[0].size < 1000000) {
+      setFileError(false);
+      setProduct({ ...product, image: e.target.files[0] });
+    } else {
+      setFileError(true);
+      return;
+    }
+  };
+
+  let formIsValid = false;
+  if (
+    product.title &&
+    product.price &&
+    product.location &&
+    product.description &&
+    product.image !== null
+  ) {
+    formIsValid = true;
+  }
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -34,7 +80,7 @@ const PostModel = ({ handleClose, show, updateUi }) => {
     const token = localStorage.getItem("token");
     console.log(product);
     await axios
-      .post("http://localhost:3001/products", product, {
+      .post("http://localhost:3001/products", formData, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -96,6 +142,44 @@ const PostModel = ({ handleClose, show, updateUi }) => {
                 }
               />
             </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Condition</Form.Label>
+              <Form.Control
+                as="select"
+                value={product.condition}
+                onChange={(event) =>
+                  setProduct({
+                    ...product,
+                    condition: event.target.value
+                  })
+                }
+              >
+                <option value="New">New</option>
+                <option value="Used">Used</option>
+              </Form.Control>
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Category</Form.Label>
+              <Form.Control
+                as="select"
+                value={product.category}
+                onChange={(event) =>
+                  setProduct({
+                    ...product,
+                    category: event.target.value
+                  })
+                }
+              >
+                {categories.map((category, index) => (
+                  <option key={index} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+
             <Form.Group className="mb-3">
               <Form.Label>Location</Form.Label>
               <Form.Control
@@ -113,18 +197,16 @@ const PostModel = ({ handleClose, show, updateUi }) => {
             <Form.Group className="mb-3">
               <Form.Label>Image</Form.Label>
               <Form.Control
-                type="text"
-                placeholder="Enter image"
-                value={product.image}
+                type="file"
                 onChange={(event) =>
                   setProduct({
                     ...product,
-                    image: event.target.value
+                    image: event.target.files[0]
                   })
                 }
               />
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" disabled={!formIsValid}>
               Submit
             </Button>
           </Form>

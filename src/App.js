@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Account from "./components/account";
 import PageNavbar from "./components/navbar";
 import Details from "./components/details";
-import Sell from "./components/sell";
 import MyProducts from "./components/myProducts";
 
 function App() {
