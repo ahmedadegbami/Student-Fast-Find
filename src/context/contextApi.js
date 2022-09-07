@@ -15,7 +15,9 @@ const initialState = {
   products: [],
   categories: [],
   changeCategory: () => {},
-  selectedCategory: ""
+  selectedCategory: "",
+  search: "",
+  setSearch: () => {}
 };
 
 export const multiStateContext = createContext(initialState);
@@ -66,13 +68,26 @@ export const StateContext = () => {
     setSelectedCategory(category);
   };
 
+  const [search, setSearch] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
+
+  const getProductsBySearch = async () => {
+    const filteredProducts = products.filter((product) =>
+      product.title.toLowerCase().includes(search.toLowerCase())
+    );
+
+    setSearchResult(filteredProducts);
+  };
+  console.log("searchResult", searchResult);
+  console.log("search", search);
+
   const getProducts = async () => {
-    console.log(selectedCategory);
     const token = localStorage.getItem("token");
     const url =
       selectedCategory === "All"
         ? "http://localhost:3001/products"
         : `http://localhost:3001/products?category=${selectedCategory}`;
+
     const response = await axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`
@@ -84,7 +99,8 @@ export const StateContext = () => {
 
   useEffect(() => {
     getProducts();
-  }, [selectedCategory]);
+    getProductsBySearch();
+  }, [selectedCategory, search]);
 
   return (
     <multiStateContext.Provider
@@ -101,7 +117,10 @@ export const StateContext = () => {
         products,
         categories,
         changeCategory,
-        selectedCategory
+        selectedCategory,
+        search,
+        setSearch,
+        searchResult
       }}
     >
       <App />

@@ -16,7 +16,8 @@ const PageNavbar = () => {
     handleShowRegister,
     getUserData,
     user,
-    setUser
+    setUser,
+    setSearch
   } = React.useContext(multiStateContext);
 
   useEffect(() => {
@@ -59,6 +60,7 @@ const PageNavbar = () => {
                 type="text"
                 placeholder="Search"
                 style={{ width: "500px", borderRadius: "10px 0px 0px 10px " }}
+                onChange={(e) => setSearch(e.target.value)}
               />
               <Button
                 variant="outline-light"
