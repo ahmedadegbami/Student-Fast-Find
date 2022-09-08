@@ -72,8 +72,10 @@ export const StateContext = () => {
   const [searchResult, setSearchResult] = useState([]);
 
   const getProductsBySearch = async () => {
-    const filteredProducts = products.filter((product) =>
-      product.title.toLowerCase().includes(search.toLowerCase())
+    const filteredProducts = products.filter(
+      (product) =>
+        product.title.toLowerCase().includes(search.toLowerCase()) ||
+        product.description.toLowerCase().includes(search.toLowerCase())
     );
     setSearchResult(filteredProducts);
   };

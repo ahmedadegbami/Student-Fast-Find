@@ -176,11 +176,7 @@ const PostModel = ({ handleClose, show, updateUi }) => {
             {fileError && (
               <p style={{ color: "red" }}>File size should be less than 1MB</p>
             )}
-            <Button
-              variant="primary"
-              type="submit"
-              // disabled={!formIsValid}
-            >
+            <Button variant="primary" type="submit" disabled={!formIsValid}>
               Submit
             </Button>
           </Form>

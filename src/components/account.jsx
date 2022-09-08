@@ -27,8 +27,9 @@ const Account = () => {
 
   const onFileChange = (e) => {
     if (e.target && e.target.files[0] && e.target.files[0].size < 1000000) {
+      const url = URL.createObjectURL(e.target.files[0]);
       setFileError(false);
-      setUser({ ...user, avatar: e.target.files[0] });
+      setUser({ ...user, avatar: url });
     } else {
       setFileError(true);
       return;
@@ -37,6 +38,11 @@ const Account = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  // update user inform and image immediately without refreshing the page
+  const updateUser = (res) => {
+    setUser({ ...user, res });
+  };
 
   const editProfile = async (e) => {
     e.preventDefault();
@@ -49,9 +55,8 @@ const Account = () => {
         }
       })
       .then((res) => {
-        setUser(res.data);
+        updateUser(res.data);
         handleClose();
-        window.location.reload();
       })
       .catch((err) => {
         console.log(err);
