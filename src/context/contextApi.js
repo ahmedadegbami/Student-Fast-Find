@@ -75,11 +75,8 @@ export const StateContext = () => {
     const filteredProducts = products.filter((product) =>
       product.title.toLowerCase().includes(search.toLowerCase())
     );
-
     setSearchResult(filteredProducts);
   };
-  console.log("searchResult", searchResult);
-  console.log("search", search);
 
   const getProducts = async () => {
     const token = localStorage.getItem("token");

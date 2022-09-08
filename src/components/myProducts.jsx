@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Row, Col, Container, Image, Card } from "react-bootstrap";
+import { Row, Col, Container, Card } from "react-bootstrap";
 
 import { FaCloudUploadAlt } from "react-icons/fa";
 
@@ -19,7 +19,6 @@ const MyProducts = () => {
     setMyProducts([...myProducts, res]);
   };
   const deleteUI = async (singleId) => {
-    //console.log(myProducts.filter((product) => product._id !== singleId));
     setMyProducts(myProducts.filter((product) => product._id !== singleId));
   };
 

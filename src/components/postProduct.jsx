@@ -1,8 +1,10 @@
 import { useEffect, useState, useContext } from "react";
-import { Modal, Form, Button, DropdownButton, Dropdown } from "react-bootstrap";
+import { Modal, Form, Button } from "react-bootstrap";
 import axios from "axios";
+import { multiStateContext } from "../context/contextApi";
 
 const PostModel = ({ handleClose, show, updateUi }) => {
+  const { categories } = useContext(multiStateContext);
   const [product, setProduct] = useState({
     title: "",
     description: "",
@@ -13,17 +15,6 @@ const PostModel = ({ handleClose, show, updateUi }) => {
     image: null,
     poster: ""
   });
-
-  const [categories, setCategories] = useState([
-    "Accessories",
-    "Beauty",
-    "Books",
-    "Electronics",
-    "Fashion",
-    "Home",
-    "Mobility",
-    "Others"
-  ]);
 
   const [fileError, setFileError] = useState(false);
 
@@ -75,6 +66,10 @@ const PostModel = ({ handleClose, show, updateUi }) => {
       });
   }, []);
 
+  const onSetProduct = (e) => {
+    setProduct({ ...product, [e.target.name]: e.target.value });
+  };
+
   const postProduct = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
@@ -98,7 +93,7 @@ const PostModel = ({ handleClose, show, updateUi }) => {
     <div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Post Product</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form style={{ width: "28rem" }} onSubmit={postProduct}>
@@ -108,9 +103,8 @@ const PostModel = ({ handleClose, show, updateUi }) => {
                 type="text"
                 placeholder="Enter title"
                 value={product.title}
-                onChange={(event) =>
-                  setProduct({ ...product, title: event.target.value })
-                }
+                name="title"
+                onChange={onSetProduct}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -119,12 +113,8 @@ const PostModel = ({ handleClose, show, updateUi }) => {
                 as="textarea"
                 rows={3}
                 value={product.description}
-                onChange={(event) =>
-                  setProduct({
-                    ...product,
-                    description: event.target.value
-                  })
-                }
+                name="description"
+                onChange={onSetProduct}
               />
             </Form.Group>
 
@@ -134,12 +124,8 @@ const PostModel = ({ handleClose, show, updateUi }) => {
                 type="text"
                 placeholder="Enter price"
                 value={product.price}
-                onChange={(event) =>
-                  setProduct({
-                    ...product,
-                    price: event.target.value
-                  })
-                }
+                name="price"
+                onChange={onSetProduct}
               />
             </Form.Group>
 
@@ -148,13 +134,10 @@ const PostModel = ({ handleClose, show, updateUi }) => {
               <Form.Control
                 as="select"
                 value={product.condition}
-                onChange={(event) =>
-                  setProduct({
-                    ...product,
-                    condition: event.target.value
-                  })
-                }
+                name="condition"
+                onChange={onSetProduct}
               >
+                <option value="">Select</option>
                 <option value="New">New</option>
                 <option value="Used">Used</option>
               </Form.Control>
@@ -165,48 +148,39 @@ const PostModel = ({ handleClose, show, updateUi }) => {
               <Form.Control
                 as="select"
                 value={product.category}
-                onChange={(event) =>
-                  setProduct({
-                    ...product,
-                    category: event.target.value
-                  })
-                }
+                name="category"
+                onChange={onSetProduct}
               >
-                {categories.map((category, index) => (
+                <option value="">Select</option>
+                {categories.slice(1).map((category, index) => (
                   <option key={index} value={category}>
                     {category}
                   </option>
                 ))}
               </Form.Control>
             </Form.Group>
-
             <Form.Group className="mb-3">
               <Form.Label>Location</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter location"
                 value={product.location}
-                onChange={(event) =>
-                  setProduct({
-                    ...product,
-                    location: event.target.value
-                  })
-                }
+                name="location"
+                onChange={onSetProduct}
               />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Image</Form.Label>
-              <Form.Control
-                type="file"
-                onChange={(event) =>
-                  setProduct({
-                    ...product,
-                    image: event.target.files[0]
-                  })
-                }
-              />
+              <Form.Control type="file" onChange={onFileChange} />
             </Form.Group>
-            <Button variant="primary" type="submit" disabled={!formIsValid}>
+            {fileError && (
+              <p style={{ color: "red" }}>File size should be less than 1MB</p>
+            )}
+            <Button
+              variant="primary"
+              type="submit"
+              // disabled={!formIsValid}
+            >
               Submit
             </Button>
           </Form>

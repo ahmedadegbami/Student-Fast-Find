@@ -1,7 +1,6 @@
 import { Col, Row, Container } from "react-bootstrap";
 import Main from "./main";
 import Sidebar from "./sidebar";
-import PageNavbar from "./navbar";
 
 const Home = () => {
   return (

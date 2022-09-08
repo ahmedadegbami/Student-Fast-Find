@@ -112,7 +112,9 @@ const Register = () => {
                   onChange={onFileChange}
                 />
               </Form.Group>
-
+              {fileError && (
+                <p className="text-danger">File size should be less than 1MB</p>
+              )}
               <div className="d-grid gap-2">
                 <Button
                   style={{ backgroundColor: "orange", borderColor: "orange" }}

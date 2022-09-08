@@ -1,21 +1,15 @@
 import React, { useEffect } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Image,
-  Card,
-  Button,
-  Modal,
-  Form
-} from "react-bootstrap";
+import { Container, Row, Col, Image, Card, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { parseISO, format } from "date-fns";
 import { useState } from "react";
 import { AiFillStar } from "react-icons/ai";
+import { messageModal } from "./messageModal";
+import { multiStateContext } from "../context/contextApi";
 
 const Details = () => {
+  const { user, handleShowSignIn } = React.useContext(multiStateContext);
   const [productDetails, setProductDetails] = React.useState([]);
 
   const [show, setShow] = useState(false);
@@ -180,39 +174,14 @@ const Details = () => {
           </Card>
         </Col>
       </Row>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Message</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form style={{ width: "28rem" }} onSubmit={() => {}}>
-            <Form.Group className="mb-3">
-              <Form.Label>Subject</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter subject"
-                value={productDetails.title}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>message</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                placeholder="Enter message"
-              />
-            </Form.Group>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                Close
-              </Button>
-              <Button variant="primary" onClick={handleClose}>
-                Send
-              </Button>
-            </Modal.Footer>
-          </Form>
-        </Modal.Body>
-      </Modal>
+      {messageModal(
+        productDetails.title,
+        show,
+        handleClose,
+        user,
+        productDetails?.poster?.username,
+        handleShowSignIn
+      )}
     </Container>
   );
 };

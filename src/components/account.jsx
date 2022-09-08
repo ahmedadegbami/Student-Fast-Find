@@ -58,6 +58,10 @@ const Account = () => {
       });
   };
 
+  const onSetMyUser = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
   return (
     <>
       <Container style={{ marginTop: "80px" }}>
@@ -117,35 +121,30 @@ const Account = () => {
               <Form.Label>Username</Form.Label>
               <Form.Control
                 type="username"
-                onChange={(e) => setUser({ ...user, username: e.target.value })}
                 value={user.username}
+                name="username"
+                onChange={onSetMyUser}
               />
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
-                onChange={(e) => setUser({ ...user, email: e.target.value })}
                 value={user.email}
+                name="email"
+                onChange={onSetMyUser}
               />
             </Form.Group>
-
             <Form.Group className="mb-3">
               <Form.Label>Image</Form.Label>
               <Form.Control type="file" onChange={onFileChange} />
             </Form.Group>
-
+            {fileError && (
+              <p className="text-danger">File size must be less than 1MB</p>
+            )}
             <Button variant="primary" type="submit">
               Save Changes
             </Button>
           </Form>
         </Modal.Body>
-        {/* <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer> */}
       </Modal>
     </>
   );

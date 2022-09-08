@@ -4,8 +4,10 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
+import { multiStateContext } from "../context/contextApi";
 
 const EditModel = ({ singleId, deleteUI }) => {
+  const { categories } = React.useContext(multiStateContext);
   const [show, setShow] = useState(false);
   const [fileError, setFileError] = useState(false);
 
@@ -24,6 +26,7 @@ const EditModel = ({ singleId, deleteUI }) => {
   formData.append("title", myProduct.title);
   formData.append("price", myProduct.price);
   formData.append("location", myProduct.location);
+  formData.append("category", myProduct.category);
   formData.append("description", myProduct.description);
   formData.append("condition", myProduct.condition);
   formData.append("image", myProduct.image);
@@ -49,9 +52,9 @@ const EditModel = ({ singleId, deleteUI }) => {
     formIsValid = true;
   }
 
-  // const onSetMyProduct = (e) => {
-  //   setMyProduct({ ...myProduct, [e.target.name]: e.target.value });
-  // };
+  const onSetMyProduct = (e) => {
+    setMyProduct({ ...myProduct, [e.target.name]: e.target.value });
+  };
 
   const getProductsDetails = async () => {
     const token = localStorage.getItem("token");
@@ -66,6 +69,7 @@ const EditModel = ({ singleId, deleteUI }) => {
           title: res.data.title,
           price: res.data.price,
           condition: res.data.condition,
+          category: res.data.category,
           location: res.data.location,
           image: res.data.image,
           description: res.data.description
@@ -129,7 +133,7 @@ const EditModel = ({ singleId, deleteUI }) => {
         <>
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-              <Modal.Title>Modal heading</Modal.Title>
+              <Modal.Title>Edit Product</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Form onSubmit={editProduct}>
@@ -139,9 +143,8 @@ const EditModel = ({ singleId, deleteUI }) => {
                     type="text"
                     placeholder="Enter title"
                     value={myProduct.title}
-                    onChange={(e) => {
-                      setMyProduct({ ...myProduct, title: e.target.value });
-                    }}
+                    name="title"
+                    onChange={onSetMyProduct}
                   />
                 </Form.Group>
                 <Form.Group className="mb-3">
@@ -150,43 +153,44 @@ const EditModel = ({ singleId, deleteUI }) => {
                     as="textarea"
                     rows={3}
                     value={myProduct.description}
-                    onChange={(event) =>
-                      setMyProduct({
-                        ...myProduct,
-                        description: event.target.value
-                      })
-                    }
+                    name="description"
+                    onChange={onSetMyProduct}
                   />
                 </Form.Group>
-
                 <Form.Group className="mb-3">
                   <Form.Label>Price</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Enter price"
                     value={myProduct.price}
-                    onChange={(event) =>
-                      setMyProduct({
-                        ...myProduct,
-                        price: event.target.value
-                      })
-                    }
+                    name="price"
+                    onChange={onSetMyProduct}
                   />
                 </Form.Group>
-
                 <Form.Group className="mb-3">
                   <Form.Label>Condition</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="New or Used"
                     value={myProduct.condition}
-                    onChange={(event) =>
-                      setMyProduct({
-                        ...myProduct,
-                        condition: event.target.value
-                      })
-                    }
+                    name="condition"
+                    onChange={onSetMyProduct}
                   />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Category</Form.Label>
+                  <Form.Control
+                    as="select"
+                    value={myProduct.category}
+                    name="category"
+                    onChange={onSetMyProduct}
+                  >
+                    {categories.slice(1).map((category, index) => (
+                      <option key={index} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                  </Form.Control>
                 </Form.Group>
 
                 <Form.Group className="mb-3">
@@ -195,25 +199,13 @@ const EditModel = ({ singleId, deleteUI }) => {
                     type="text"
                     placeholder="Enter location"
                     value={myProduct.location}
-                    onChange={(event) =>
-                      setMyProduct({
-                        ...myProduct,
-                        location: event.target.value
-                      })
-                    }
+                    name="location"
+                    onChange={onSetMyProduct}
                   />
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Image</Form.Label>
-                  <Form.Control
-                    type="file"
-                    onChange={(event) =>
-                      setMyProduct({
-                        ...myProduct,
-                        image: event.target.files[0]
-                      })
-                    }
-                  />
+                  <Form.Control type="file" onChange={onFileChange} />
                 </Form.Group>
                 {fileError && (
                   <p style={{ color: "red" }}>
@@ -225,14 +217,6 @@ const EditModel = ({ singleId, deleteUI }) => {
                 </Button>
               </Form>
             </Modal.Body>{" "}
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                Close
-              </Button>
-              <Button variant="primary" onClick={handleClose}>
-                Save Changes
-              </Button>
-            </Modal.Footer>{" "}
           </Modal>
         </>
       )}
