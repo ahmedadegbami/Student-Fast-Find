@@ -132,11 +132,6 @@ const PageNavbar = () => {
           </Modal.Title>
         </Modal.Header>
         <Login />
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseSignIn}>
-            Close
-          </Button>
-        </Modal.Footer>
       </Modal>
 
       <Modal show={showRegister} onHide={handleCloseRegister}>
@@ -150,11 +145,6 @@ const PageNavbar = () => {
           </Modal.Title>
         </Modal.Header>
         <Register />
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseRegister}>
-            Close
-          </Button>
-        </Modal.Footer>
       </Modal>
     </>
   );

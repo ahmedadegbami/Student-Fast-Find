@@ -1,8 +1,7 @@
 import axios from "axios";
-import { set } from "date-fns";
 import React from "react";
 import { useEffect, useState } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form, Spinner } from "react-bootstrap";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import { multiStateContext } from "../context/contextApi";
 
@@ -10,6 +9,8 @@ const EditModel = ({ singleId, deleteUI }) => {
   const { categories } = React.useContext(multiStateContext);
   const [show, setShow] = useState(false);
   const [fileError, setFileError] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -40,17 +41,6 @@ const EditModel = ({ singleId, deleteUI }) => {
       return;
     }
   };
-
-  let formIsValid = true;
-  if (
-    myProduct.title &&
-    myProduct.price &&
-    myProduct.location &&
-    myProduct.description &&
-    myProduct.image !== null
-  ) {
-    formIsValid = true;
-  }
 
   const onSetMyProduct = (e) => {
     setMyProduct({ ...myProduct, [e.target.name]: e.target.value });
@@ -84,7 +74,12 @@ const EditModel = ({ singleId, deleteUI }) => {
     getProductsDetails();
   }, [singleId]);
 
+  const updateEdit = (res) => {
+    setMyProduct({ ...myProduct, res });
+  };
+
   const editProduct = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     const token = localStorage.getItem("token");
     await axios
@@ -94,11 +89,14 @@ const EditModel = ({ singleId, deleteUI }) => {
         }
       })
       .then((res) => {
+        updateEdit(res);
+        setIsLoading(false);
         window.location.reload();
-        console.log(res);
+
         handleClose();
       })
       .catch((err) => {
+        setIsLoading(false);
         console.log(err);
       });
   };
@@ -212,9 +210,14 @@ const EditModel = ({ singleId, deleteUI }) => {
                     File size should be less than 1MB
                   </p>
                 )}
-                <Button variant="primary" type="submit">
-                  Submit
-                </Button>
+                <div className="d-flex justify-content-between">
+                  <Button variant="primary" type="submit">
+                    Submit
+                  </Button>
+                  {isLoading && (
+                    <Spinner animation="border" variant="warning" />
+                  )}
+                </div>
               </Form>
             </Modal.Body>{" "}
           </Modal>

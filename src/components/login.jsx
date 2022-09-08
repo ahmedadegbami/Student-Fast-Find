@@ -1,4 +1,4 @@
-import { Form, Button, Card } from "react-bootstrap";
+import { Form, Button, Card, Spinner } from "react-bootstrap";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -17,9 +17,12 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
+    setIsLoading(true);
     e.preventDefault();
     axios
       .post("http://localhost:3001/users/login", {
@@ -28,10 +31,12 @@ const Login = () => {
       })
       .then((res) => {
         localStorage.setItem("token", res.data.accessToken);
+        setIsLoading(false);
         window.location.reload();
         navigate("/");
       })
       .catch((err) => {
+        setIsLoading(false);
         setError(err.response.data.message);
       });
   };
@@ -89,6 +94,13 @@ const Login = () => {
                 </small>
                 <ErrorText error={error} />
               </Form>
+              {isLoading && (
+                <Spinner
+                  animation="border"
+                  variant="warning"
+                  className="align-self-center"
+                />
+              )}
             </Card>
           </div>
         </div>

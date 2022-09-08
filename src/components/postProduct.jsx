@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { Modal, Form, Button } from "react-bootstrap";
+import { Modal, Form, Button, Spinner } from "react-bootstrap";
 import axios from "axios";
 import { multiStateContext } from "../context/contextApi";
 
@@ -15,6 +15,7 @@ const PostModel = ({ handleClose, show, updateUi }) => {
     image: null,
     poster: ""
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const [fileError, setFileError] = useState(false);
 
@@ -71,6 +72,7 @@ const PostModel = ({ handleClose, show, updateUi }) => {
   };
 
   const postProduct = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     const token = localStorage.getItem("token");
     console.log(product);
@@ -81,10 +83,12 @@ const PostModel = ({ handleClose, show, updateUi }) => {
         }
       })
       .then((res) => {
+        setIsLoading(true);
         updateUi(res.data.product);
         handleClose();
       })
       .catch((err) => {
+        setIsLoading(false);
         console.log(err);
       });
   };
@@ -176,9 +180,18 @@ const PostModel = ({ handleClose, show, updateUi }) => {
             {fileError && (
               <p style={{ color: "red" }}>File size should be less than 1MB</p>
             )}
-            <Button variant="primary" type="submit" disabled={!formIsValid}>
-              Submit
-            </Button>
+            <div className="d-flex justify-content-center">
+              <Button variant="primary" type="submit" disabled={!formIsValid}>
+                Post
+              </Button>
+              {isLoading && (
+                <Spinner
+                  animation="border"
+                  variant="warning"
+                  className="ml-2"
+                />
+              )}
+            </div>
           </Form>
         </Modal.Body>
       </Modal>

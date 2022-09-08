@@ -1,15 +1,15 @@
-import { Form, Button, Card } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { Form, Button, Card, Spinner } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
 import axios from "axios";
 import { multiStateContext } from "../context/contextApi";
-import React, { useEffect } from "react";
 import ErrorText from "./errorText";
-import is from "date-fns/esm/locale/is/index.js";
 
 const Register = () => {
   const { handleShowSignIn, handleCloseRegister } =
-    React.useContext(multiStateContext);
+    useContext(multiStateContext);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -17,6 +17,7 @@ const Register = () => {
     username: "",
     email: "",
     password: "",
+    location: "",
     avatar: "",
     error: ""
   });
@@ -27,6 +28,7 @@ const Register = () => {
   formData.append("username", user.username);
   formData.append("email", user.email);
   formData.append("password", user.password);
+  formData.append("location", user.location);
   formData.append("avatar", user.avatar);
 
   const onFileChange = (e) => {
@@ -48,20 +50,26 @@ const Register = () => {
   };
 
   const handleSubmit = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     await axios
       .post("http://localhost:3001/users/register", formData)
       .then((res) => {
+        setIsLoading(false);
         handleCloseRegister();
         handleShowSignIn();
         navigate("/");
       })
       .catch((err) => {
+        setIsLoading(false);
         if (err.response.status === 400) {
-          console.log("see", err.response.data.message);
           setUser({ ...user, error: err.response.data.message });
         }
       });
+  };
+
+  const isSetNewUser = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
   };
 
   return (
@@ -76,9 +84,8 @@ const Register = () => {
                   type="text"
                   placeholder="Enter Username"
                   value={user.username}
-                  onChange={(e) =>
-                    setUser({ ...user, username: e.target.value })
-                  }
+                  name="username"
+                  onChange={isSetNewUser}
                 />
               </Form.Group>
 
@@ -88,7 +95,8 @@ const Register = () => {
                   type="email"
                   placeholder="Enter email"
                   value={user.email}
-                  onChange={(e) => setUser({ ...user, email: e.target.value })}
+                  name="email"
+                  onChange={isSetNewUser}
                 />
               </Form.Group>
 
@@ -98,9 +106,18 @@ const Register = () => {
                   type="password"
                   placeholder="Password"
                   value={user.password}
-                  onChange={(e) =>
-                    setUser({ ...user, password: e.target.value })
-                  }
+                  name="password"
+                  onChange={isSetNewUser}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Location</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Location"
+                  value={user.location}
+                  name="location"
+                  onChange={isSetNewUser}
                 />
               </Form.Group>
 
@@ -140,6 +157,13 @@ const Register = () => {
               </p>
             </small>
             <ErrorText error={user.error} />
+            {isLoading && (
+              <Spinner
+                animation="border"
+                variant="warning"
+                className="align-self-center"
+              />
+            )}
           </Card>
         </div>
       </div>

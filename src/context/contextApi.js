@@ -51,7 +51,7 @@ export const StateContext = () => {
       }
     }
   };
-  const [categories, setCategories] = useState([
+  const [categories] = useState([
     "All",
     "Accessories",
     "Beauty",
@@ -99,7 +99,7 @@ export const StateContext = () => {
   useEffect(() => {
     getProducts();
     getProductsBySearch();
-  }, [selectedCategory, search]);
+  }, [selectedCategory, search, products]);
 
   return (
     <multiStateContext.Provider
