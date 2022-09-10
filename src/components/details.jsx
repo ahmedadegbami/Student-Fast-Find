@@ -45,17 +45,6 @@ const Details = () => {
     <Container style={{ marginTop: "80px", marginBottom: "80px" }}>
       <Row>
         <Col md={8}>
-          <Image
-            className="img-fluid"
-            variant="top"
-            src={productDetails.image}
-            style={{
-              padding: "10px",
-              border: "2px solid orange",
-              height: "60%",
-              width: "100%"
-            }}
-          />
           <Card
             className="mt-3"
             style={{
@@ -64,14 +53,30 @@ const Details = () => {
             }}
           >
             <Card.Body>
+              <Image
+                className="img-fluid mx-auto d-block"
+                variant="top"
+                src={productDetails.image}
+                style={{
+                  padding: "10px",
+                  border: "1px solid orange",
+
+                  height: "50%",
+                  width: "60%"
+                }}
+              />
+              <br />
+
               <Card.Title>{productDetails.title}</Card.Title>
               <Card.Text>
                 {" "}
-                Price: ${productDetails.price} negotiable
-                <span>only pickup available</span>
+                <strong>Price:</strong> ${productDetails.price}
               </Card.Text>
-              <Card.Text>{productDetails.location}</Card.Text>
               <Card.Text>
+                <strong>Location:</strong> {productDetails.location}
+              </Card.Text>
+              <Card.Text>
+                <strong>Posted</strong> on:{" "}
                 {productDetails.createdAt
                   ? format(
                       parseISO(productDetails.createdAt),
@@ -90,14 +95,16 @@ const Details = () => {
           >
             <Card.Body>
               <Card.Text>
-                Condition: {productDetails.condition}
+                <strong>Condition:</strong> {productDetails.condition}
                 {productDetails.condition === "New" ? (
                   <AiFillStar color="red" />
                 ) : (
                   <AiFillStar color="grey" />
                 )}
               </Card.Text>
-              <Card.Text>Description: {productDetails.description}</Card.Text>
+              <Card.Text>
+                <strong>Description:</strong> {productDetails.description}
+              </Card.Text>
             </Card.Body>
           </Card>
           <Card
@@ -165,10 +172,10 @@ const Details = () => {
             <Card.Body>
               <Card.Title>Contact Seller</Card.Title>
               <Card.Text>
-                <span>Seller:</span> {productDetails?.poster?.username}
+                <strong>Seller:</strong> {productDetails?.poster?.username}
               </Card.Text>
               <Card.Text>
-                <span>Location:</span> {productDetails?.location}
+                <strong>Location:</strong> {productDetails?.location}
               </Card.Text>
             </Card.Body>
           </Card>

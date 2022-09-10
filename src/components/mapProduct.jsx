@@ -5,14 +5,14 @@ import { AiFillStar } from "react-icons/ai";
 
 export const mapProduct = (products) => {
   return products.map((product) => (
-    <Col key={product._id} md={4} className="mb-5">
+    <Col key={product._id} md={3} className="mb-5">
       <Card style={{ backgroundColor: "orange" }}>
         <Link to={"/products/" + product._id}>
           <Card.Img
             variant="top"
             src={product.image}
-            width={200}
-            height={250}
+            width={150}
+            height={200}
           />
         </Link>
         <Card.Title

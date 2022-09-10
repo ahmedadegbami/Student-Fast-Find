@@ -27,9 +27,10 @@ const Account = () => {
 
   const onFileChange = (e) => {
     if (e.target && e.target.files[0] && e.target.files[0].size < 1000000) {
-      const url = URL.createObjectURL(e.target.files[0]);
+      // const url = URL.createObjectURL(e.target.files[0]);
+      // console.log("url", url);
+      setUser({ ...user, avatar: e.target.files[0] });
       setFileError(false);
-      setUser({ ...user, avatar: url });
     } else {
       setFileError(true);
       return;
@@ -87,11 +88,11 @@ const Account = () => {
                 <Image
                   src={user.avatar}
                   alt="avatar"
-                  width={200}
-                  height={200}
+                  width={150}
+                  height={150}
                   roundedCircle
                 />
-                <div className="mt-4">
+                <div className="mt-1 mx-4">
                   <Card.Text>
                     <strong>Username:</strong> {user.username}
                   </Card.Text>

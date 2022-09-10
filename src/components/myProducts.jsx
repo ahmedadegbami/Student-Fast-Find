@@ -98,9 +98,15 @@ const MyProducts = () => {
                         <h5 className="card-title">{product.title}</h5>
                         <EditModel singleId={product._id} deleteUI={deleteUI} />
                       </div>
-                      <p className="card-text">${product.price}</p>
-                      <p className="card-text">{product.condition}</p>
-                      <p className="card-text">{product.category}</p>
+                      <p className="card-text">
+                        <strong>Price: </strong> ${product.price}
+                      </p>
+                      <p className="card-text">
+                        <strong> Condition: </strong> {product.condition}
+                      </p>
+                      <p className="card-text">
+                        <strong> Category: </strong> {product.category}
+                      </p>
                     </div>
                   </div>
                 </Col>

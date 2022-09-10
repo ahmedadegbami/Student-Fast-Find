@@ -99,7 +99,7 @@ export const StateContext = () => {
   useEffect(() => {
     getProducts();
     getProductsBySearch();
-  }, [selectedCategory, search, products]);
+  }, [selectedCategory, search]);
 
   return (
     <multiStateContext.Provider

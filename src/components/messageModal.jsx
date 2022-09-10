@@ -40,7 +40,13 @@ export const messageModal = (
               </>
             ) : (
               <>
-                <Button variant="warning" onClick={showLogin}>
+                <Button
+                  variant="warning"
+                  onClick={() => {
+                    handleClose();
+                    showLogin();
+                  }}
+                >
                   Sign In
                 </Button>
                 <Button variant="secondary" onClick={handleClose}>
