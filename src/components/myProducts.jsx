@@ -50,8 +50,8 @@ const MyProducts = () => {
               borderRadius: "10px",
               padding: "10px",
               width: "18rem",
-              backgroundColor: "orange",
-              color: "white"
+              backgroundColor: "var(--primary-color)",
+              color: "var(--secondary-color)"
             }}
           >
             My Products
@@ -62,7 +62,7 @@ const MyProducts = () => {
               padding: "10px",
               width: "10rem",
               backgroundColor: "grey",
-              color: "white"
+              color: "var(--secondary-color)"
             }}
             className="ml-auto"
             onClick={handleShow}
@@ -81,7 +81,7 @@ const MyProducts = () => {
                   <div
                     className="card"
                     style={{
-                      border: "2px solid orange"
+                      border: "2px solid var(--primary-color)"
                     }}
                   >
                     <Card.Img
@@ -92,7 +92,10 @@ const MyProducts = () => {
                     />
                     <div
                       className="card-body"
-                      style={{ backgroundColor: "orange", color: "white" }}
+                      style={{
+                        backgroundColor: "var(--primary-color)",
+                        color: "var(--secondary-color)"
+                      }}
                     >
                       <div className="d-flex justify-content-between">
                         <h5 className="card-title">{product.title}</h5>

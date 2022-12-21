@@ -37,8 +37,8 @@ const PageNavbar = () => {
         <Navbar
           className="m-0 p-0"
           style={{
-            border: "1px solid orange",
-            backgroundColor: "orange"
+            border: "1px solid var(--primary-color)",
+            backgroundColor: "var(--primary-color)"
           }}
         >
           <div className="d-flex justify-content-between align-items-center flex-grow-1">
@@ -125,7 +125,7 @@ const PageNavbar = () => {
         <Modal.Header closeButton>
           <Modal.Title
             style={{
-              color: "orange"
+              color: "var(--primary-color)"
             }}
           >
             Sign In
@@ -138,7 +138,7 @@ const PageNavbar = () => {
         <Modal.Header closeButton>
           <Modal.Title
             style={{
-              color: "orange"
+              color: "var(--primary-color)"
             }}
           >
             Register

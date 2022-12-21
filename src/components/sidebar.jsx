@@ -20,8 +20,13 @@ const Sidebar = () => {
             }}
             style={{
               backgroundColor:
-                selectedCategory === category ? "orange" : "white",
-              color: selectedCategory === category ? "white" : "black"
+                selectedCategory === category
+                  ? "var(--primary-color)"
+                  : "var(--secondary-color)",
+              color:
+                selectedCategory === category
+                  ? "var(--secondary-color)"
+                  : "var(--tertiary-color)"
             }}
           >
             {category}

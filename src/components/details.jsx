@@ -49,7 +49,7 @@ const Details = () => {
             className="mt-3"
             style={{
               padding: "10px",
-              border: "2px solid orange"
+              border: "2px solid var(--primary-color)"
             }}
           >
             <Card.Body>
@@ -59,7 +59,7 @@ const Details = () => {
                 src={productDetails.image}
                 style={{
                   padding: "10px",
-                  border: "1px solid orange",
+                  border: "1px solid var(--primary-color)",
 
                   height: "50%",
                   width: "60%"
@@ -90,7 +90,7 @@ const Details = () => {
             className="mt-3"
             style={{
               padding: "10px",
-              border: "2px solid orange"
+              border: "2px solid var(--primary-color)"
             }}
           >
             <Card.Body>
@@ -111,14 +111,14 @@ const Details = () => {
             className="mt-3"
             style={{
               padding: "10px",
-              border: "2px solid orange"
+              border: "2px solid var(--primary-color)"
             }}
           >
             <Card.Body>
               <Card.Text>Write a message</Card.Text>
               <Button
                 style={{
-                  backgroundColor: "orange",
+                  backgroundColor: "var(--primary-color)",
                   border: "none"
                 }}
                 onClick={handleShow}
@@ -132,7 +132,7 @@ const Details = () => {
           <Button
             style={{
               width: "100%",
-              backgroundColor: "orange",
+              backgroundColor: "var(--primary-color)ange",
               border: "none"
             }}
             className="my-3"
@@ -144,8 +144,8 @@ const Details = () => {
             style={{
               width: "100%",
               backgroundColor: "transparent",
-              color: "black",
-              border: "1px solid black"
+              color: "var(--tertiary-color)",
+              border: "1px solid var(--tertiary-color)"
             }}
             className="mb-3"
           >
@@ -156,8 +156,8 @@ const Details = () => {
             style={{
               width: "100%",
               backgroundColor: "transparent",
-              color: "black",
-              border: "1px solid black"
+              color: "var(--tertiary-color)",
+              border: "1px solid var(--tertiary-color)"
             }}
           >
             share ad
@@ -166,7 +166,7 @@ const Details = () => {
             className="mt-3"
             style={{
               padding: "10px",
-              border: "2px solid orange"
+              border: "2px solid var(--primary-color)"
             }}
           >
             <Card.Body>

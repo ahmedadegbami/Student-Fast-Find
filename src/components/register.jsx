@@ -134,7 +134,10 @@ const Register = () => {
               )}
               <div className="d-grid gap-2">
                 <Button
-                  style={{ backgroundColor: "orange", borderColor: "orange" }}
+                  style={{
+                    backgroundColor: "var(--primary-color)",
+                    borderColor: "var(--primary-color)"
+                  }}
                   type="submit"
                   size="lg"
                   className="btn btn-block "

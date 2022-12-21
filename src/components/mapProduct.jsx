@@ -6,7 +6,7 @@ import { AiFillStar } from "react-icons/ai";
 export const mapProduct = (products) => {
   return products.map((product) => (
     <Col key={product._id} md={3} className="mb-5">
-      <Card style={{ backgroundColor: "orange" }}>
+      <Card style={{ backgroundColor: "var(--primary-color)" }}>
         <Link to={"/products/" + product._id}>
           <Card.Img
             variant="top"
@@ -21,7 +21,7 @@ export const mapProduct = (products) => {
         >
           <h5
             style={{
-              color: "white",
+              color: "var(--secondary-color)",
               fontSize: "1.2rem",
               fontWeight: "bold"
             }}

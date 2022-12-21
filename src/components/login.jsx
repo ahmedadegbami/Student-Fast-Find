@@ -70,8 +70,8 @@ const Login = () => {
 
                 <Button
                   style={{
-                    backgroundColor: "orange",
-                    borderColor: "orange"
+                    backgroundColor: "var(--primary-color)",
+                    borderColor: "var(--primary-color)"
                   }}
                   type="submit"
                   className="btn btn-block "
